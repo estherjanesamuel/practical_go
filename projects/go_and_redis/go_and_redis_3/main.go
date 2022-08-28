@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-
+	"time"
 	"github.com/gomodule/redigo/redis"
 )
 
@@ -52,6 +52,10 @@ func newPool() *redis.Pool {
 				panic(err.Error())
 			}
 			return c, err
+		},
+		TestOnBorrow: func(c redis.Conn, t time.Time) error {
+			_, err := c.Do("PING")
+			return err
 		},
 	}
 }
