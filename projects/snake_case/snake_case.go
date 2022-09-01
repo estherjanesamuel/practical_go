@@ -7,7 +7,11 @@ import (
 )
 
 func main()  {
-	fmt.Println(ToSnakeCase("     Arief    Samuel"))
+	word := "GlobalRank,TldRank,Domain,TLD,RefSubNets,RefIPs,IDNDomain,IDN_TLD,PrevGlobalRank,PrevTldRank,PrevRefSubNets,PrevRefIPs"
+	words := strings.Split(word, ",")
+	for _, s := range words {
+		fmt.Println(ToSnakeCase(s))
+	} 
 }
 
 type SnakeCaseState string
