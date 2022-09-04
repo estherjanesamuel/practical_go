@@ -10,20 +10,20 @@ import (
 	"log"
 	"math"
 	"os"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/lib/pq"
 )
 
 const (
-	dbMaxIdleConns = 1
-	dbMaxConns = 1
+	dbMaxIdleConns = 4
+	dbMaxConns = 40
 	totalWorker = 100
 	csvFile = "../../data-source/csv/majestic_million.csv"
-	// dsn = "file:./workshop.db?cache=shared&_journal_mode=WAL&auto_vacuum=0&synchronous=OFF"
-	dsn = "file:./poc.db"
+	dsn = "postgres://postgres@localhost:5432/?sslmode=disable"
 )
 
 var dataHeader = make([]string, 0)
@@ -32,7 +32,7 @@ func main()  {
 
 	start := time.Now()
 
-	db, err := sql.Open("sqlite3", dsn)
+	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -52,30 +52,7 @@ func main()  {
 		log.Fatal(err)
 	}
 
-	db.Exec("PRAGMA journal_mode = OFF;")
-	db.Exec("PRAGMA synchronous = 0;")
-	db.Exec("PRAGMA cache_size = 1000000;")
-	db.Exec("PRAGMA locking_mode = EXCLUSIVE;")
-	db.Exec("PRAGMA temp_store = MEMORY;")
 	
-	/*
-	
-	db.Exec("PRAGMA journal_mode = WAL")
-    db.Exec("PRAGMA synchronous = 0")
-    db.Exec("PRAGMA cache_size = 1000000")
-    db.Exec("PRAGMA locking_mode = EXCLUSIVE")
-    db.Exec("PRAGMA temp_store = MEMORY")
-	
-	8695  insert / second
-	
-	// Use WAL : https://stackoverflow.com/a/35805826
-	// db.Exec("PRAGMA journal_mode = WAL")
-	
-	// https://stackoverflow.com/questions/1711631/improve-insert-per-second-performance-of-sqlite
-	db.Exec("PRAGMA auto_vacuum = 0")
-	db.Exec("PRAGMA synchronous = OFF")
-	
-	*/
 	db.SetMaxOpenConns(dbMaxConns)
     db.SetMaxIdleConns(dbMaxIdleConns)
 
@@ -215,7 +192,7 @@ func doTheJob(workerIndex, counter int, db *sql.DB, values []interface{}) {
 				log.Fatal(err.Error())
 			}
 
-			query := fmt.Sprintf("INSERT INTO domain (%s) VALUES (%s)", strings.Join(dataHeader, ","), strings.Join(generateQuestionsMark(len(dataHeader)), ","),)
+			query := fmt.Sprintf("INSERT INTO domain (%s) VALUES (%s)", strings.Join(dataHeader, ","), strings.Join(generateDollarSigns(len(dataHeader)), ","),)
 			// fmt.Println(SQLQueryDebugString(query, values...));
 			_, err = conn.ExecContext(context.Background(), query, values...)
 			if err != nil {
@@ -236,11 +213,18 @@ func doTheJob(workerIndex, counter int, db *sql.DB, values []interface{}) {
 	}
 }
 
-func generateQuestionsMark(n int) []string {
+func generateDollarSigns(n int) []string {
 	s := make([]string, 0)
-	for i := 0; i < n; i++ {
-		s = append(s, "?")
+	for i := 1; i < n+1; i++ {
+		s = append(s, "$"+strconv.Itoa(i))
 	}
 
 	return s
 }
+func ReplaceSQL(old, searchPattern string) string {
+	tmpCount := strings.Count(old, searchPattern)
+	for m := 1; m <= tmpCount; m++ {
+	   old = strings.Replace(old, searchPattern, "$"+strconv.Itoa(m), 1)
+	}
+	return old
+ }

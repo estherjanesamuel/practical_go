@@ -1,0 +1,6 @@
+database:
+  url: "localhost"
+  keyspace: "todo"
+
+host:
+  port: "8080"
