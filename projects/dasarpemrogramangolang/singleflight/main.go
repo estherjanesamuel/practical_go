@@ -9,11 +9,18 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+
+	chi	"github.com/go-chi/chi/v5"
 )
 
 func main() {
-	http.HandleFunc("/api/report/download/", downloadReportHandler)
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	r := chi.NewRouter()
+	r.Route("/api", func (r chi.Router)  {
+		r.Get("/report/download/{reporttId}", downloadReportHandler)
+	})
+	// http.HandleFunc("/api/report/download/", downloadReportHandler)
+	fmt.Println("starting web server at :8000")
+	log.Fatal(http.ListenAndServe(":8000", r))
 }
 
 func downloadReportHandler(w http.ResponseWriter, req *http.Request) {
