@@ -77,6 +77,8 @@ func downloadReportHandler(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	// set Content-Disposition for tell the browser that this is a report generation operation 
 	contentDisposition := fmt.Sprintf("attachment; filename=%s", reportName)
 	w.Header().Set("Content-Disposition", contentDisposition)
 
