@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bank_app/internal/server"
 	"bank_app/internal/version"
 	"flag"
 	"fmt"
