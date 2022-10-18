@@ -1,0 +1,4 @@
+GET http://localhost:8000/api/normal HTTP/1.1
+
+###
+GET http://localhost:8000/api/singleflight HTTP/1.1

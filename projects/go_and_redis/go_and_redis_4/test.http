@@ -1,0 +1,14 @@
+GET http://localhost:8090/ping HTTP/1.1
+###
+GET http://localhost:8090/foo HTTP/1.1
+###
+GET http://localhost:8090 HTTP/1.1
+
+###
+GET http://localhost:8090/data HTTP/1.1
+
+###
+GET http://localhost:8090/getdata?key=key_test5 HTTP/1.1
+
+###
+GET http://localhost:8090/setdata?key=key_test5&value=HelloDataFounded HTTP/1.1
