@@ -21,7 +21,7 @@ func (app *application) errorMessage(w http.ResponseWriter, r *http.Request, sta
 }
 
 func (app *application) serverError(w http.ResponseWriter, r *http.Request, err error) {
-	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())
+	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())	
 	app.logger.Print(trace)
 
 	message := "The server encountered a problem and could not process your request"

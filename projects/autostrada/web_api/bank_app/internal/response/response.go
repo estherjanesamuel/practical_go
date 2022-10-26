@@ -24,5 +24,4 @@ func JSONWithHeaders(w http.ResponseWriter, status int, data any, headers http.H
 	w.Write(js)
 
 	return nil
-
 }
