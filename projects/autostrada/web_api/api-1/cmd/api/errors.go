@@ -2,6 +2,7 @@ package main
 
 import (
 	"api-1/internal/response"
+	"api-1/internal/validator"
 	"fmt"
 	"net/http"
 	"runtime/debug"
@@ -32,18 +33,16 @@ func (app *application) notFound(w http.ResponseWriter, r *http.Request)  {
 
 func (app *application) methodNotAllowed(w http.ResponseWriter, r *http.Request) {
 	message := fmt.Sprintf("The %s method is not supported for this resource", r.Method)
-	app.errorMessage(w, r, http.StatusNotFound, message, nil)
+	app.errorMessage(w, r, http.StatusMethodNotAllowed, message, nil)
 }
 
 func (app *application) badRequest(w http.ResponseWriter, r *http.Request, err error) {
-	app.errorMessage(w, r, http.StatusNotFound, err.Error(), nil)
+	app.errorMessage(w, r, http.StatusBadRequest, err.Error(), nil)
 }
 
-/*
 func (app *application) failedValidation(w http.ResponseWriter, r *http.Request, v validator.Validator)  {
 	err := response.JSON(w, http.StatusUnprocessableEntity, v)
 	if err != nil {
 		app.serverError(w,r,err)
 	}
 }
-*/

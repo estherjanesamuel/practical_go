@@ -1,1 +1,14 @@
 GET http://localhost:4444 HTTP/1.1
+
+###
+OPTIONS http://localhost:4444/healtz HTTP/1.1
+###
+PATCH http://localhost:4444/healtz HTTP/1.1
+###
+PUT http://localhost:4444/healtz HTTP/1.1
+###
+DELETE http://localhost:4444/healtz HTTP/1.1
+###
+POST http://localhost:4444/healtz HTTP/1.1
+###
+GET http://localhost:4444/healtz HTTP/1.1
