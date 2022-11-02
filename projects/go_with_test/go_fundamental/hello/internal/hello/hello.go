@@ -1,5 +1,10 @@
 package hello
 
+const englishHelloPrefix = "hello, "
+
 func Hello(name string) string {
-	return "hello, " + name
+	if name == "" {
+		return englishHelloPrefix + "world"
+	}
+	return englishHelloPrefix + name
 }
