@@ -23,7 +23,7 @@ func TestSqrt(t *testing.T) {
 		})
 		testsqrt := fmt.Sprintf("sqrt(%v)", ts.x)
 		t.Run(testsqrt, func(t *testing.T) {
-			got := sqrt(ts.x)
+			got := mysqrt(ts.x)
 			if got != ts.want {
 				t.Errorf("got %v, wanted %v", got, ts.want)
 			}

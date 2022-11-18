@@ -91,3 +91,28 @@ func mid(high int) (mid int) {
 	mid = high / 2
 	return
 }
+
+/*
+
+ * Forward declaration of guess API.
+ * @param  num   your guess
+ * @return 	     -1 if num is higher than the picked number
+ *			      1 if num is lower than the picked number
+ *               otherwise return 0
+
+ func guessNumber(n int) int {
+    left, right := 1, n
+    for left <= right {
+        num := left + (right - left)/ 2
+        g := guess(num)
+        if g == 1 {
+            left = num + 1
+        } else if g == -1 {
+            right = num - 1
+        } else {
+            return num
+        }
+    }
+    return 1
+}
+*/

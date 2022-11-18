@@ -19,7 +19,7 @@ func TestValidPerfectSquare(t *testing.T) {
 	for _, ts := range tests {
 		testname := fmt.Sprintf("%v", ts.num)
 		t.Run(testname, func(t *testing.T) {
-			got := isPerfectSquare3(ts.num)
+			got := isPerfectSquare2(ts.num)
 			if got != ts.want {
 				t.Errorf("got %v, wanted %v", got, ts.want)
 			}

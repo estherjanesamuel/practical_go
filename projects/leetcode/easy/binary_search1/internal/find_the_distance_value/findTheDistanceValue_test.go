@@ -1,6 +1,9 @@
 package findthedistancevalue
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 // func TestFindDistanceValueSingle(t *testing.T) {
 // 	got := findTheDistanceValue([]int{4, 5, 8}, []int{10, 9, 1, 8}, 2)
@@ -21,9 +24,21 @@ func TestFindDistanceValue(t *testing.T) {
 	}
 
 	for _, ts := range tests {
-		got := findTheDistanceValue(ts.num, ts.arr, ts.distance)
-		if got != ts.want {
-			t.Errorf("got %v, wanted %v", got, ts.want)
-		}
+		FindTheDistanceValue := fmt.Sprintf("%v %v %v", ts.num, ts.arr, ts.distance)
+		t.Run(FindTheDistanceValue, func(t *testing.T) {
+			got := findTheDistanceValue(ts.num, ts.arr, ts.distance)
+			if got != ts.want {
+				t.Errorf("got %v, wanted %v", got, ts.want)
+			}
+		})
+
+		findTheDistVal := fmt.Sprintf("%v %v %v", ts.num, ts.arr, ts.distance)
+		t.Run(findTheDistVal, func(t *testing.T) {
+			got := findDistVal(ts.num, ts.arr, ts.distance)
+			if got != ts.want {
+				t.Errorf("got %v, wanted %v", got, ts.want)
+			}
+		})
+
 	}
 }
