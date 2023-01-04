@@ -25,6 +25,8 @@ func TestFindSmallestLetter(t *testing.T) {
 				t.Errorf("got %v, wanted %v", got, ts.want)
 			}
 		})
+		
+		
 		// testNextGreaterLetter := fmt.Sprintf("%v, %v", ts.letters, ts.target)
 		// t.Run(testNextGreaterLetter, func(t *testing.T) {
 		// 	got := nextGreaterLetter(ts.letters, ts.target)
@@ -55,16 +57,23 @@ func TestNextGreatestLetter(t *testing.T) {
 		{[]byte{'c','f','j'},'d','f'},
 	}
 	for _, ts := range tests {
-		testNextGreatestLetter := fmt.Sprintf("%v, %v", ts.letters, ts.target)
-		t.Run(testNextGreatestLetter, func(t *testing.T) {
-			got := nextGreatestLetter(ts.letters, ts.target)
-				if got != ts.want {
-					t.Errorf("got %v, wanted %v", got, ts.want)
-				}
-		})
+		// testNextGreatestLetter := fmt.Sprintf("%v, %v", ts.letters, ts.target)
+		// t.Run(testNextGreatestLetter, func(t *testing.T) {
+		// 	got := nextGreatestLetter(ts.letters, ts.target)
+		// 		if got != ts.want {
+		// 			t.Errorf("got %v, wanted %v", got, ts.want)
+		// 		}
+		// })
 		testNextGreaterLetterBytes := fmt.Sprintf("%v, %v", ts.letters, ts.target)
+		// t.Run(testNextGreaterLetterBytes, func(t *testing.T) {
+		// 	got := nextGreaterLetterBytes(ts.letters, ts.target)
+		// 	if got != ts.want {
+		// 		t.Errorf("got %v, wanted %v", got, ts.want)
+		// 	}
+		// })
+
 		t.Run(testNextGreaterLetterBytes, func(t *testing.T) {
-			got := nextGreaterLetterBytes(ts.letters, ts.target)
+			got := findNextGreatesLetter(ts.letters, ts.target)
 			if got != ts.want {
 				t.Errorf("got %v, wanted %v", got, ts.want)
 			}

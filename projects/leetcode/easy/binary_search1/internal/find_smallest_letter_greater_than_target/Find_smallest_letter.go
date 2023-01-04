@@ -89,3 +89,13 @@ func nextGreaterLetterBytes(letters []byte, target byte) byte {
 	}
 	return letters[left % len(letters)]
 }
+
+func findNextGreatesLetter(letters []byte, target byte) byte {
+	n := len(letters)
+	for i := 0; i < n; i++ {
+		if letters[i] > target {
+			return letters[i]
+		}
+	}
+	return letters[0]
+}
