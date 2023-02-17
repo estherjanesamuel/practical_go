@@ -9,6 +9,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/hexops/autogold"
 	"github.com/jmoiron/sqlx"
 	"github.com/ory/dockertest/v3"
 )
@@ -48,5 +49,23 @@ func TestMain(m *testing.M)()  {
 
 func TestGuest(t *testing.T) {
 	user := model.NewUser(testDb)
-	
+	err := user.Migrate()
+	if err != nil {
+		t.Errorf("error migrating: %v", err)
+	}
+
+	guest := Guest{
+		Db *sqlx.DB,
+	}
+
+	t.Run(`registerWithEmptyEmailMustFail`, func(t *testing.T) {
+		in := Guest_RegisterIn{}
+		out := Guest.RegisterOut{&in}
+
+		want := autogold.Want(`registerWithEmptyEmailMustFail1`, Guest_RegisterOut{CommonOut: CommonOut{
+			StatusCode: 400,
+			ErrorMsg: "invalid email",
+		}})
+		want.Equal(t, out)
+	})
 }
