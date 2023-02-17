@@ -3,6 +3,7 @@ package business
 import (
 	"errors"
 	"fiber1/config"
+	"fiber1/model"
 	"fmt"
 	"log"
 	"os"
