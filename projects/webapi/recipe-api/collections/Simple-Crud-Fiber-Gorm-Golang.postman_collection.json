@@ -1,0 +1,200 @@
+{
+	"info": {
+		"_postman_id": "d65fb644-2fd7-4380-918d-54189047b1fd",
+		"name": "Simple-Crud-Fiber-Gorm-Golang",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "post recipes (succes)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Rendang Sapi dan Ayam\",\n    \"ingredients\": [\"daging sapi\",\"daging ayam\",\"santan\",\"cabe keriting\",\"cabe rawit merah\",\"kunyit\",\"lengkuas\",\"bawang merah\",\"bawang putih\",\"daun jeruk\",\"daun salam\",\"garam\",\"gula\",\"bumbu kaldu\",\"ketumbar\"],\n    \"isHalal\": true,\n    \"IsVegetarian\": false,\n    \"description\": \"Haluskan bumbu-bumbu lalu tumis dengan minyak sayur secukupnya hingga berubah warna. Masukkan daun jeruk dan daun salam, tumis hingga daun agak layu. Masukkan daging sapi yang sudah dipotong-potong lalu tuang santan. Aduk sesekali. Masukkan daging ayam, aduk seterusnya hingga santan sudah mulai mengering. Masak sampai kuah rendang habis dan mengeluarkan minyak. Angkat dan sajikan.\",\n    \"rating\": 5\n\n  }"
+				},
+				"url": {
+					"raw": "http://localhost:3000/recipes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"recipes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post recipes (failed)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ingredients\": [\"daging sapi\",\"daging ayam\",\"santan\",\"cabe keriting\",\"cabe rawit merah\",\"kunyit\",\"lengkuas\",\"bawang merah\",\"bawang putih\",\"daun jeruk\",\"daun salam\",\"garam\",\"gula\",\"bumbu kaldu\",\"ketumbar\"],\n    \"isHalal\": null,\n    \"isVegetarian\": null,\n    \"description\": \"Haluskan bumbu-bumbu lalu tumis dengan minyak sayur secukupnya hingga berubah warna. Masukkan daun jeruk dan daun salam, tumis hingga daun agak layu. Masukkan daging sapi yang sudah dipotong-potong lalu tuang santan. Aduk sesekali. Masukkan daging ayam, aduk seterusnya hingga santan sudah mulai mengering. Masak sampai kuah rendang habis dan mengeluarkan minyak. Angkat dan sajikan.\",\n    \"rating\": 5\n\n  }"
+				},
+				"url": {
+					"raw": "http://localhost:3000/recipes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"recipes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all recipes (limit + page)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Apple iPhone 13\",\n    \"stock\": 100,\n    \"price\": 999\n  }"
+				},
+				"url": {
+					"raw": "http://localhost:3000/recipes?limit=100&page=1&sort=id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"recipes"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "100"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "sort",
+							"value": "id"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete recipe",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Apple iPhone 13\",\n    \"stock\": 100,\n    \"price\": 999\n  }"
+				},
+				"url": {
+					"raw": "http://localhost:3000/recipes/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"recipes",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update recipe",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"name\": \"Rendang Sapi dan Ayam Enak\",\r\n            \"Ingredients\": [\r\n                \"daging sapi australia\",\r\n                \"daging ayam\",\r\n                \"santan\",\r\n                \"cabe keriting\",\r\n                \"cabe rawit merah\",\r\n                \"kunyit\",\r\n                \"lengkuas\",\r\n                \"bawang merah\",\r\n                \"bawang putih\",\r\n                \"daun jeruk\",\r\n                \"daun salam\",\r\n                \"garam\",\r\n                \"gula\",\r\n                \"bumbu kaldu\",\r\n                \"ketumbar\"\r\n            ],\r\n            \"isHalal\": true,\r\n            \"isVegetarian\": false,\r\n            \"description\": \"Haluskan bumbu-bumbu lalu tumis dengan minyak sayur secukupnya hingga berubah warna. Masukkan daun jeruk dan daun salam, tumis hingga daun agak layu. Masukkan daging sapi yang sudah dipotong-potong lalu tuang santan. Aduk sesekali. Masukkan daging ayam, aduk seterusnya hingga santan sudah mulai mengering. Masak sampai kuah rendang habis dan mengeluarkan minyak. Angkat dan sajikan.\",\r\n            \"rating\": 5\r\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/recipes/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"recipes",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get recipe by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Apple iPhone 13\",\n    \"stock\": 100,\n    \"price\": 999\n  }"
+				},
+				"url": {
+					"raw": "http://localhost:3000/recipes/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"recipes",
+						"5"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
