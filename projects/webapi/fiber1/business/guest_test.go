@@ -12,6 +12,7 @@ import (
 	"github.com/hexops/autogold"
 	"github.com/jmoiron/sqlx"
 	"github.com/ory/dockertest/v3"
+	"github.com/stretchr/testify/assert"
 )
 
 var testDb *sqlx.DB
@@ -55,17 +56,144 @@ func TestGuest(t *testing.T) {
 	}
 
 	guest := Guest{
-		Db *sqlx.DB,
+		Db: testDb,
 	}
 
-	t.Run(`registerWithEmptyEmailMustFail`, func(t *testing.T) {
+	t.Run("registerWithEmptyEmailMustFail", func(t *testing.T) {
 		in := Guest_RegisterIn{}
-		out := Guest.RegisterOut{&in}
+		out := guest.Register(&in)
 
-		want := autogold.Want(`registerWithEmptyEmailMustFail1`, Guest_RegisterOut{CommonOut: CommonOut{
+		want := autogold.Want("registerWithEmptyEmailMustFail", Guest_RegisterOut{CommonOut: CommonOut{
 			StatusCode: 400,
 			ErrorMsg: "invalid email",
 		}})
 		want.Equal(t, out)
 	})
+
+	t.Run("registerWithEmptyPasswordMustFail", func(t *testing.T) {
+		in := Guest_RegisterIn{
+			Email: "a@gmail.com",
+		}
+		out := guest.Register(&in)
+
+		want := autogold.Want("registerWithEmptyPasswordMustFail", Guest_RegisterOut{CommonOut: CommonOut{
+			StatusCode: 400,
+			ErrorMsg: "invalid password",
+		}})
+		want.Equal(t, out)
+	})
+	t.Run("registerWithEmptyNameMustFail", func(t *testing.T) {
+		in := Guest_RegisterIn{
+			Email: "a@gmail.com",
+			Password: "123456",
+		}
+		out := guest.Register(&in)
+
+		want := autogold.Want("registerWithEmptyNameMustFail", Guest_RegisterOut{CommonOut: CommonOut{
+			StatusCode: 400,
+			ErrorMsg: "invalid name",
+		}})
+		want.Equal(t, out)
+	})
+
+	t.Run("registerMustSucceed", func(t *testing.T) {
+		in := Guest_RegisterIn{
+			Email: "a@gmail.com",
+			Password: "123456",
+			Name: "Aaya",
+		}
+		out := guest.Register(&in)
+
+		if out.User != nil {
+			assert.NotEmpty(t, out.User.Password)
+			out.User.Password = ""
+		}
+
+		want := autogold.Want("registerMustSucceed1", Guest_RegisterOut{User: &model.User{
+			Id: 1,
+			Email: "a@gmail.com",
+			Name: "Aaya",
+		}})
+		want.Equal(t, out)
+	})
+
+	t.Run("registerAgainWithSameEmailMustFail", func(t *testing.T) {
+		in := Guest_RegisterIn{
+			Email: "a@gmail.com",
+			Password: "123456",
+			Name: "Aaya",
+		}
+		out := guest.Register(&in)
+
+		want := autogold.Want("registerAgainWithSameEmailMustFail1", Guest_RegisterOut{CommonOut: CommonOut{
+			StatusCode: 400,
+			ErrorMsg: "email already exist",
+		}})
+		want.Equal(t, out)
+	})	
+
+	t.Run("loginWithEmptyPasswordMustFail", func(t *testing.T) {
+		in := Guest_LoginIn{
+			Email: "a@gmail.com",
+		}
+		out := guest.Login(&in)
+
+		want := autogold.Want("loginWithEmptyPasswordMustFail1", Guest_LoginOut{CommonOut: CommonOut{
+			StatusCode: 400,
+			ErrorMsg: "invalid password",
+		}})
+		want.Equal(t, out)
+	})
+
+	t.Run("loginWithWrongPasswordMustFail", func(t *testing.T) {
+		in := Guest_LoginIn{
+			Email: "a@gmail.com",
+			Password: "123",
+		}
+		out := guest.Login(&in)
+
+		want := autogold.Want("loginWithEmptyPasswordMustFail1", Guest_LoginOut{CommonOut: CommonOut{
+			StatusCode: 400,
+			ErrorMsg: "user or password doesn't match",
+		}})
+		want.Equal(t, out)
+	})
+
+	t.Run("loginUnknownEmailMustFail", func(t *testing.T) {
+		in := Guest_LoginIn{
+			Email: "b@gmail.com",
+			Password: "123",
+		}
+		out := guest.Login(&in)
+
+		want := autogold.Want("loginUnknownEmailMustFail1", Guest_LoginOut{CommonOut: CommonOut{
+			StatusCode: 400,
+			ErrorMsg: "user not found",
+		}})
+		want.Equal(t, out)
+	})
+
+	t.Run("loginMustSucceed", func(t *testing.T) {
+		in := Guest_LoginIn{
+			Email: "a@gmail.com",
+			Password: "123456",
+		}
+		out := guest.Login(&in)
+
+			assert.NotEmpty(t, out.SetCookie)
+			out.SetCookie = ""
+			if out.User != nil {
+				assert.NotEmpty(t, out.User.Password)
+				out.User.Password = ""
+			}
+
+
+		want := autogold.Want("loginMustSucceed1", Guest_LoginOut{User: &model.User{
+			Id: 1,
+			Email: "a@gmail.com",
+			Name: "Aaya",
+		}})
+		want.Equal(t, out)
+	})
+
 }

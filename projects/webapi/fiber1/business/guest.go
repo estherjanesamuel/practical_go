@@ -21,9 +21,9 @@ type Guest_LoginOut struct {
 	User *model.User
 }
 
-const Gues_LoginPath = `/guest/login`
+const Guest_LoginPath = `/guest/login`
 
-func (g *Guest) login(in *Guest_LoginIn) (out Guest_LoginOut) {
+func (g *Guest) Login(in *Guest_LoginIn) (out Guest_LoginOut) {
 	if len(in.Email) < 3 {
 		out.SetError(400, `invalid email`)
 		return
