@@ -29,7 +29,7 @@ func TestMain(m *testing.M)()  {
 
 	var connStr string
 	if err := pool.Retry(func() error {
-		connStr = fmt.Sprintf("root:secret@(127.0.0.1:%s)/mysql", resource.GetPort("3306/tcp"))
+		connStr = fmt.Sprintf("root:secret@(127.0.2.2:%s)/mysql", resource.GetPort("3306/tcp"))
 		testDb = config.ConnectMySql(connStr)
 		if  testDb != nil{
 			return nil
