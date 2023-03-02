@@ -1,0 +1,5 @@
+package findnearestpointthathasthesamexycoordinate
+
+func nearestValidPoint()  {
+	
+}
