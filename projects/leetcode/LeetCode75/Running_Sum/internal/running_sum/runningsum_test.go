@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"golang.org/x/exp/slices"
 )
 
 func TestRunningSum(t *testing.T) {
@@ -20,7 +20,11 @@ func TestRunningSum(t *testing.T) {
         testRunningSum := fmt.Sprintf("%v", tt.nums)
         t.Run(testRunningSum, func(t *testing.T) {
             got := runningSum(tt.nums)
-            assert.Equal(t, tt.want, got)
+            // assert.Equal(t, tt.want, got)
+            ok := slices.Equal(got,tt.want)
+			if !ok {
+				t.Errorf("got %v, wanted %v",got,tt.want)
+			}
         })
     }
 }

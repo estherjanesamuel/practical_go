@@ -1,0 +1,6 @@
+# http://10.91.1.230:5850/api/Earning/CountUpdatePromoByEvent/EventLuckyDraw
+# http://localhost:5850/swagger/index.html
+POST http://localhost:5850/api/Earning/CountUpdatePromoByEvent/EventLuckyDraw HTTP/1.1
+Content-Type: application/json
+
+{"TrxPointsType":"32c4a00a-ecc6-430c-ac24-1a94905c16d5","TrxMerchantId":"3aa9d9d7-7f7a-433c-a073-0764b90f2129","TrxOid":"01011321394791","TrxReceipt":"REC-ZKtSzB8LS0","TrxReceiptExtern":"REC-ZKtSzB8LS0","TrxDate":"2023-06-09T06:30:08.636Z","TrxStatus":1,"TrxAmount":1.0,"TrxChannel":"APP","TrxContractNo":"020120100848","FeCode":"EventLuckyDraw","FeActivity":"event"}

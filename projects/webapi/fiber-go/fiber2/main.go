@@ -10,5 +10,9 @@ func main()  {
 		return c.SendString("Hello World!")
 	})
 
+	// app.Get("/panic", func(c *fiber.Ctx) error {
+	// 	panic("a problem")
+	// })
+
 	app.Listen(":3000")
 }
