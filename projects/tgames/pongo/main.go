@@ -3,7 +3,9 @@ package main
 import (
 	"log"
 	"os"
-	"time"
+	"pongo/ball"
+	"pongo/game"
+	_ "pongo/game"
 
 	"github.com/gdamore/tcell/v2"
 )
@@ -16,35 +18,29 @@ func main() {
 	if err := screen.Init(); err != nil {
 		log.Fatal("%+v", err)
 	}
-	defStyle := tcell.StyleDefault.Background(tcell.ColorBlack).Foreground(tcell.ColorBlack)
-	screen.SetStyle(defStyle)
 
-	go run (screen, defStyle)
+	ball := ball.Ball{
+		X: 1,
+		Y: 1,
+		Xspeed: 1,
+		Yspeed: 1,
+	}
+
+	game := game.Game{
+		Screen: screen,
+		Ball: ball,
+	}
+	go game.Run()
+
 	for {
-
 		switch event := screen.PollEvent().(type) {
 		case *tcell.EventResize:
-			screen.Sync()
+			game.Screen.Sync()
 		case *tcell.EventKey:
 			if event.Key() == tcell.KeyEscape || event.Key() == tcell.KeyCtrlC {
 				screen.Fini()
 				os.Exit(0)
 			}
 		}
-	}
-}
-
-func run(screen tcell.Screen, defStyle tcell.Style)  {
-	x := 0
-	for {
-		screen.Clear()
-		screen.SetContent(x, 10, 'H', nil, defStyle)
-		screen.SetContent(x+1, 10, 'i', nil, defStyle)
-		screen.SetContent(x+2, 10, '!', nil, defStyle)
-
-		screen.Show()
-		x++
-
-		time.Sleep(40 * time.Millisecond)
 	}
 }
